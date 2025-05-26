@@ -1,0 +1,49 @@
+@startuml
+skinparam backgroundColor #add8e6
+skinparam actorStyle awesome
+
+package "Cinema management system - Module" {
+
+    actor User
+    actor Staff
+
+    User <|-- Staff
+
+    usecase "Login\n<color:blue><b>extension points</b>\nLogout\nChange password" as UC_Login
+    usecase "Logout" as UC_Logout
+    usecase "Change password" as UC_ChangePassword
+
+    usecase "Staff login\n<color:blue><b>extension points</b>\nRevenue report" as UC_StaffLogin
+    usecase "Revenue report\n<color:blue><b>extension points</b>\nRevenue report by movie\nRevenue report by cinema" as UC_RevenueReport
+    usecase "Revenue report by movie" as UC_ReportMovie
+    usecase "Revenue report by cinema" as UC_ReportCinema
+
+    usecase "Show movie revenue list\n<color:blue><b>extension points</b>\nShow total revenue for each movie showtime" as UC_MovieRevenueList
+    usecase "Show total revenue for each movie showtime\n<color:blue><b>extension points</b>\nShow the list of invoices" as UC_ShowTotalRevenue
+    usecase "Show cinema revenue list\n<color:blue><b>extension points</b>\nShow total revenue for each movie showtime" as UC_CinemaRevenueList
+    usecase "Show the list of invoices" as UC_ListInvoices
+
+    ' Actors connects
+    Staff --> UC_StaffLogin
+    User --> UC_Login
+
+    ' Extensions and includes
+    UC_Login <.down. UC_Logout : <<Extend>>
+    UC_Login <.down. UC_ChangePassword : <<Extend>>
+
+    UC_StaffLogin <.down. UC_RevenueReport : <<Extend>>
+
+    UC_RevenueReport <.right. UC_ReportMovie : <<Extend>>
+    UC_RevenueReport <.down. UC_ReportCinema : <<Extend>>
+
+    UC_ReportMovie --> UC_MovieRevenueList : <<Include>>
+    UC_ReportCinema --> UC_CinemaRevenueList : <<Include>>
+
+    UC_MovieRevenueList <.down. UC_ShowTotalRevenue : <<Extend>>
+    UC_CinemaRevenueList <.down. UC_ShowTotalRevenue : <<Extend>>
+
+    UC_ShowTotalRevenue <.down. UC_ListInvoices : <<Extend>>
+
+}
+
+@enduml

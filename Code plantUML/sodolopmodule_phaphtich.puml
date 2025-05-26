@@ -1,0 +1,41 @@
+@startuml
+skinparam backgroundColor #add8e6
+skinparam classAttributeIconSize 0
+
+class RevenueReportFrm
+class RevenueReportByCinemaFrm
+class RevenueReportByMovieFrm
+class RevenueReportByMovieShowtimeFrm
+class RevenueReportByInvoiceFrm
+
+class RevenueReportByCinema
+class RevenueReportByMovie
+class RevenueReportByMovieShowtime
+class RevenueReportByInvoice
+
+class Cinema
+class Movie
+class Showtime
+class Invoice
+
+RevenueReportFrm -- RevenueReportByCinemaFrm
+RevenueReportFrm -- RevenueReportByMovieFrm
+RevenueReportByCinemaFrm -- RevenueReportByMovieShowtimeFrm
+RevenueReportByMovieFrm -- RevenueReportByMovieShowtimeFrm
+RevenueReportByMovieShowtimeFrm -- RevenueReportByInvoiceFrm
+
+RevenueReportByCinemaFrm -- RevenueReportByCinema
+RevenueReportByCinema --> Cinema
+
+RevenueReportByMovieFrm -- RevenueReportByMovie
+RevenueReportByMovie --> Movie
+
+RevenueReportByMovieShowtimeFrm -- RevenueReportByMovieShowtime
+RevenueReportByMovieShowtime --> Showtime
+
+RevenueReportByInvoiceFrm -- RevenueReportByInvoice
+RevenueReportByInvoice --> Invoice
+
+Movie --> Showtime
+
+@enduml

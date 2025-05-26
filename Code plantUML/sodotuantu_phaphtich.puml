@@ -1,0 +1,48 @@
+@startuml
+actor staff
+
+participant RevenueReportFrm
+participant RevenueReportByCinemaFrm
+participant RevenueReportByMovieFrm
+participant RevenueReportByMovieShowtimeFrm
+participant RevenueReportByInvoiceFrm
+participant RevenueReportByCinema
+participant RevenueReportByMovie
+participant RevenueReportByShowtime
+participant RevenueReportByInvoice
+
+== Thống kê doanh thu theo rạp ==
+staff -> RevenueReportFrm : Chọn thống kê doanh thu theo rạp, nhập ngày bắt đầu và kết thúc
+RevenueReportFrm -> RevenueReportByCinemaFrm : Yêu cầu hiển thị
+RevenueReportByCinemaFrm -> RevenueReportByCinema : Yêu cầu tìm kiếm thống kê theo rạp từ ngày bắt đầu đến ngày kết thúc
+RevenueReportByCinema -> RevenueReportByCinemaFrm : Trả về kết quả danh sách thống kê của các rạp theo thời gian đã chọn
+RevenueReportByCinemaFrm -> staff : Hiển thị danh sách kết quả thống kê doanh thu của rạp trong khoảng ngày đã chọn
+
+staff -> RevenueReportByMovieShowtimeFrm : Chọn 1 rạp trong danh sách để thống kê doanh thu
+RevenueReportByMovieShowtimeFrm -> RevenueReportByShowtime : Yêu cầu tìm thông tin các suất chiếu của rạp đã chọn trong khoảng thời gian đã chọn
+RevenueReportByShowtime -> RevenueReportByMovieShowtimeFrm : Trả về danh sách thống kê theo suất chiếu của rạp đã chọn trong khoảng thời gian đã chọn
+RevenueReportByMovieShowtimeFrm -> staff : Hiển thị danh sách suất chiếu
+
+staff -> RevenueReportByInvoiceFrm : Chọn 1 suất chiếu trong danh sách để thống kê doanh thu
+RevenueReportByInvoiceFrm -> RevenueReportByInvoice : Yêu cầu tìm kiếm thông tin các hóa đơn của suất chiếu đã chọn
+RevenueReportByInvoice -> RevenueReportByInvoiceFrm : Trả về danh sách thống kê theo hóa đơn của suất chiếu đã chọn
+RevenueReportByInvoiceFrm -> staff : Hiển thị kết quả thống kê các hóa đơn của suất chiếu đã chọn của suất chiếu của rạp đã chọn trong khoảng thời gian đã chọn
+
+== Thống kê doanh thu theo rạp ==
+staff -> RevenueReportFrm : Chọn thống kê doanh thu theo phim, nhập ngày bắt đầu và kết thúc
+RevenueReportFrm -> RevenueReportByMovieFrm : Yêu cầu hiển thị
+RevenueReportByMovieFrm -> RevenueReportByMovie : Yêu cầu tìm kiếm thống kê theo phim từ ngày bắt đầu đến ngày kết thúc
+RevenueReportByMovie -> RevenueReRevenueReportByMovieFrmportByCinemaFrm : Trả về kết quả danh sách thống kê của các phim theo thời gian đã chọn
+RevenueReportByMovieFrm -> staff : Hiển thị danh sách kết quả thống kê doanh thu của phim trong khoảng ngày đã chọn
+
+staff -> RevenueReportByMovieShowtimeFrm : Chọn 1 phim trong danh sách để thống kê doanh thu
+RevenueReportByMovieShowtimeFrm -> RevenueReportByShowtime : Yêu cầu tìm thông tin các suất chiếu của phim đã chọn trong khoảng thời gian đã chọn
+RevenueReportByShowtime -> RevenueReportByMovieShowtimeFrm : Trả về danh sách thống kê theo suất chiếu của phim đã chọn trong khoảng thời gian đã chọn
+RevenueReportByMovieShowtimeFrm -> staff : Hiển thị danh sách suất chiếu
+
+staff -> RevenueReportByInvoiceFrm : Chọn 1 suất chiếu trong danh sách để thống kê doanh thu
+RevenueReportByInvoiceFrm -> RevenueReportByInvoice : Yêu cầu tìm kiếm thông tin các hóa đơn của suất chiếu đã chọn
+RevenueReportByInvoice -> RevenueReportByInvoiceFrm : Trả về danh sách thống kê theo hóa đơn của suất chiếu đã chọn
+RevenueReportByInvoiceFrm -> staff : Hiển thị kết quả thống kê các hóa đơn của suất chiếu đã chọn của suất chiếu của phim đã chọn trong khoảng thời gian đã chọn
+
+@enduml

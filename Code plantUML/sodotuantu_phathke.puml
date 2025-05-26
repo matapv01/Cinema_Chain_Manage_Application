@@ -1,0 +1,68 @@
+@startuml
+actor Staff as "Staff"
+
+participant RevenueReportFrm
+participant RevenueReportByCinemaFrm
+participant RevenueReportByMovieFrm
+participant RevenueReportByMovieShowtimeFrm
+participant RevenueReportByInvoiceFrm
+participant RevenueReportDAO
+participant RevenueReportByCinema
+participant RevenueReportByMovie
+participant RevenueReportByShowtime
+participant RevenueReportByInvoice
+
+== Thống kê theo rạp ==
+Staff -> RevenueReportFrm : Chọn thống kê báo cáo doanh thu theo rạp, nhập ngày bắt đầu và kết thúc
+RevenueReportFrm -> RevenueReportByCinemaFrm : call: btnRevenueReport_actionPerformed()
+RevenueReportByCinemaFrm -> RevenueReportDAO : call: getRevenueReportByCinema(startDate, endDate)
+RevenueReportDAO -> RevenueReportDAO : call: getRevenueReportByCinema(startDate, endDate)
+RevenueReportDAO --> RevenueReportByCinema : call: new()
+RevenueReportByCinema --> RevenueReportDAO : return object
+RevenueReportDAO --> RevenueReportFrm : return
+RevenueReportByCinemaFrm --> Staff : return success
+
+
+Staff -> RevenueReportByMovieShowtimeFrm : Chọn 1 rạp trong danh sách để thống kê doanh thu
+RevenueReportByMovieShowtimeFrm -> RevenueReportDAO : call: getRevenueReportByShowtime (startDate, endDate, cinema)
+RevenueReportDAO -> RevenueReportDAO : call: getRevenueReportByShowtime (startDate, endDate, cinema)
+RevenueReportDAO --> RevenueReportByMovieShowtime : call: new()
+RevenueReportByMovieShowtime --> RevenueReportDAO : return object
+RevenueReportDAO --> RevenueReportByMovieShowtimeFrm : return
+RevenueReportByMovieShowtimeFrm --> Staff : return success
+
+Staff -> RevenueReportByInvoiceFrm : Chọn 1 suất chiếu trong danh sách để thống kê doanh thu
+RevenueReportByCinemaFrm -> RevenueReportDAO : call: getRevenueReportByInvoice (startDate, endDate, showtime)
+RevenueReportDAO -> RevenueReportDAO : call: getRevenueReportByInvoice (startDate, endDate, showtime)
+RevenueReportDAO --> RevenueReportByInvoice : call: new()
+RevenueReportByInvoice --> RevenueReportDAO : return object
+RevenueReportDAO --> RevenueReportByInvoiceFrm : return
+RevenueReportByInvoiceFrm --> Staff : return success
+
+== Thống kê theo phim ==
+Staff -> RevenueReportFrm : Chọn thống kê báo cáo doanh thu theo phim, nhập ngày bắt đầu và kết thúc
+RevenueReportFrm -> RevenueReportByMovieFrm : call: btnRevenueReport_actionPerformed()
+RevenueReportByMovieFrm -> RevenueReportDAO : call: getRevenueReportByMovie(startDate, endDate)
+RevenueReportDAO -> RevenueReportDAO : call: getRevenueReportByMovie(startDate, endDate)
+RevenueReportDAO --> RevenueReportByMovie : call: new()
+RevenueReportByMovie --> RevenueReportDAO : return object
+RevenueReportDAO --> RevenueReportFrm : return
+RevenueReportByMovieFrm --> Staff : return success
+
+
+Staff -> RevenueReportByMovieShowtimeFrm : Chọn 1 rạp trong danh sách để thống kê doanh thu
+RevenueReportByMovieShowtimeFrm -> RevenueReportDAO : call: getRevenueReportByShowtime (startDate, endDate,  movie)
+RevenueReportDAO -> RevenueReportDAO : call: getRevenueReportByShowtime (startDate, endDate, movie)
+RevenueReportDAO --> RevenueReportByMovieShowtime : call: new()
+RevenueReportByMovieShowtime --> RevenueReportDAO : return object
+RevenueReportDAO --> RevenueReportByMovieShowtimeFrm : return
+RevenueReportByMovieShowtimeFrm --> Staff : return success
+
+Staff -> RevenueReportByInvoiceFrm : Chọn 1 suất chiếu trong danh sách để thống kê doanh thu
+RevenueReportByCinemaFrm -> RevenueReportDAO : call: getRevenueReportByInvoice (startDate, endDate, showtime)
+RevenueReportDAO -> RevenueReportDAO : call: getRevenueReportByInvoice (startDate, endDate, showtime)
+RevenueReportDAO --> RevenueReportByInvoice : call: new()
+RevenueReportByInvoice --> RevenueReportDAO : return object
+RevenueReportDAO --> RevenueReportByInvoiceFrm : return
+RevenueReportByInvoiceFrm --> Staff : return success
+@enduml

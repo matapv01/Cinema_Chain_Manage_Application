@@ -1,0 +1,98 @@
+@startuml
+skinparam backgroundColor #add8e6
+skinparam classAttributeIconSize 0
+
+class Cinema {
+    -name : String
+    -address : String
+    -description : String
+}
+
+class ScreeningRoom {
+    -seatnumber : Integer
+    -description : String
+}
+
+class Seat {
+    -number : String
+}
+
+class Movie {
+    -name : String
+    -genre : String
+    -productionYear : Integer
+    -description : String
+}
+
+class Showtime {
+    -dateTime : Date
+}
+
+class Customer {
+    -name : String
+    -phone : String
+}
+
+class User {
+    -name : String
+    -role : String
+}
+
+class Ticket {
+    -discount : Double
+    -price : Double
+}
+
+class Invoice {
+    -dateTime : Date
+    -totalPrice : Double
+}
+
+class ProductItem {
+    -quantity : Integer
+    -totalAmount : Double
+}
+
+class Product {
+    -name : String
+    -unitPrice : Double
+}
+
+class RevenueReportByMovie {
+    -totalRevenueByMovie : Double
+    -ticket_count : Integer
+}
+
+class RevenueReportByCinema {
+    -totalRevenueByCinema : Double
+    -ticket_count : Integer
+}
+
+class RevenueReportByMovieShowtime {
+    -ticket_count : Integer
+    -totalRevenueByMovieShowTime : Double
+}
+
+class RevenueReportByInvoice {
+    -ticket_count : Integer
+    -totalRevenue : Double
+}
+
+Cinema  *--  ScreeningRoom
+ScreeningRoom  *--  Seat
+ScreeningRoom  --o  Showtime
+Movie  --o  Showtime
+Showtime  --o  Ticket
+Seat  --o  Ticket
+Customer  --o  Invoice
+Ticket  --o  Invoice
+Invoice  --o  ProductItem
+ProductItem  o--  Product
+User  --o  Invoice
+
+RevenueReportByMovie --> Movie
+RevenueReportByCinema --> Cinema
+RevenueReportByMovieShowtime --> Showtime
+RevenueReportByInvoice --> Invoice
+
+@enduml

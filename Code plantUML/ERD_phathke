@@ -1,0 +1,104 @@
+@startuml
+
+entity "tbl_Cinema" as Cinema {
+  *id : integer(10) <<PK>>
+  --
+  name : varchar(45)
+  address : varchar(125)
+  description : varchar(255)
+}
+
+entity "tbl_ScreeningRoom" as ScreeningRoom {
+  *id : integer(10) <<PK>>
+  --
+  seat_number : integer(10)
+  description : varchar(255)
+  tbl_Cinemaid : integer(10) <<FK>>
+}
+
+entity "tbl_Seat" as Seat {
+  *id : integer(10) <<PK>>
+  --
+  number : varchar(10)
+  tbl_ScreeningRoomid : integer(10) <<FK>>
+}
+
+entity "tbl_Movie" as Movie {
+  *id : integer(10) <<PK>>
+  --
+  name : varchar(45)
+  genre : integer(10)
+  production_year : integer(10)
+  description : varchar(255)
+}
+
+entity "tbl_Showtime" as Showtime {
+  *id : integer(10) <<PK>>
+  --
+  date_time : date
+  tbl_ScreeningRoomid : integer(10) <<FK>>
+  tbl_Movieid : integer(10) <<FK>>
+}
+
+entity "tbl_Ticket" as Ticket {
+  *id : integer(10) <<PK>>
+  --
+  discount : double(20)
+  price : integer(20)
+  tbl_Showtimeid : integer(10) <<FK>>
+  tbl_Seatid : integer(10) <<FK>>
+  tbl_Invoiceid : integer(10) <<FK>>
+}
+
+entity "tbl_Customer" as Customer {
+  *id : integer(10) <<PK>>
+  --
+  name : varchar(45)
+  phone : varchar(25)
+}
+
+entity "tbl_Invoice" as Invoice {
+  *id : integer(10) <<PK>>
+  --
+  date_time : date
+  total_price : integer(20)
+  tbl_Customerid : integer(10) <<FK>>
+  tbl_Userid : integer(10) <<FK>>
+}
+
+entity "tbl_User" as User {
+  *id : integer(10) <<PK>>
+  --
+  name : varchar(45)
+  role : varchar(10)
+}
+
+entity "tbl_Product" as Product {
+  *id : integer(10) <<PK>>
+  --
+  name : varchar(45)
+  unit_price : double(20)
+}
+
+entity "tbl_ProductItem" as ProductItem {
+  *id : integer(10) <<PK>>
+  --
+  quantity : integer(10)
+  total_amount : double(20)
+  Productid : integer(10) <<FK>>
+  tbl_Invoiceid : integer(10) <<FK>>
+}
+
+Cinema ||--o{ ScreeningRoom 
+ScreeningRoom ||--o{ Seat 
+ScreeningRoom ||--o{ Showtime 
+Movie ||--o{ Showtime 
+Showtime ||--o{ Ticket 
+Seat ||--o{ Ticket 
+Invoice ||--o{ Ticket 
+Customer ||--o{ Invoice 
+User ||--o{ Invoice 
+Invoice ||--o{ ProductItem 
+Product ||--o{ ProductItem 
+
+@enduml

@@ -1,0 +1,120 @@
+@startuml
+skinparam backgroundColor #add8e6
+skinparam classAttributeIconSize 0
+
+class Cinema {
+    -id : Integer
+    -name : String
+    -address : String
+    -description : String
+    -screeningRoomList : ScreeningRoom[]
+}
+
+class ScreeningRoom {
+    -id : Integer
+    -seatnumber : Integer
+    -description : String
+    -seatList : Seat[]
+}
+
+class Seat {
+    -id : Integer
+    -number : String
+}
+
+class Movie {
+    -id : Integer
+    -name : String
+    -genre : String
+    -productionYear : Integer
+    -description : String
+}
+
+class Showtime {
+    -id : Integer
+    -dateTime : Date
+    -movie : Movie
+    -screeningRoom : ScreeningRoom
+}
+
+class Customer {
+    -id : Integer
+    -name : String
+    -phone : String
+}
+
+class User {
+    -id : Integer
+    -name : String
+    -role : String
+}
+
+class Ticket {
+    -id : Integer
+    -discount : Double
+    -price : Double
+    -showtime : Showtime
+    -seat : Seat
+}
+
+class Invoice {
+    -id : Integer
+    -dateTime : Date
+    -totalPrice : Double
+    -ticketList : Ticket[]
+    -user : User
+    -customer : Customer
+}
+
+class ProductItem {
+    -id : Integer
+    -quantity : Integer
+    -totalAmount : Double
+    -product : Product
+    -invoice : Invoice
+}
+
+class Product {
+    -id : Integer
+    -name : String
+    -unitPrice : Double
+}
+
+class RevenueReportByMovie {
+    -totalRevenueByMovie : Double
+    -ticket_count : Integer
+}
+
+class RevenueReportByCinema {
+    -totalRevenueByCinema : Double
+    -ticket_count : Integer
+}
+
+class RevenueReportByMovieShowtime {
+    -ticket_count : Integer
+    -totalRevenueByMovieShowTime : Double
+}
+
+class RevenueReportByInvoice {
+    -ticket_count : Integer
+    -totalRevenue : Double
+}
+
+Cinema  "1" *-- "1..*" ScreeningRoom
+ScreeningRoom "1" *-- "1..*" Seat
+ScreeningRoom "1" --o "0..*" Showtime
+Movie "1" --o "0..*" Showtime
+Showtime "1" --o "1..*" Ticket
+Seat "1" --o "0..*" Ticket
+Customer "1" --o "0..*" Invoice
+Ticket "1..*" --o "0..1" Invoice
+Invoice "0..1" --o "1..*" ProductItem
+ProductItem "1..*" o-- "1" Product
+User "1" --o "0..*" Invoice
+
+RevenueReportByMovie --> Movie
+RevenueReportByCinema --> Cinema
+RevenueReportByMovieShowtime --> Showtime
+RevenueReportByInvoice --> Invoice
+
+@enduml

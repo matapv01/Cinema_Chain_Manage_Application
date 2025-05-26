@@ -1,0 +1,212 @@
+@startuml
+
+class RevenueReportFrm {
+  -startDate : Date
+  -endDate : Date
+  -btnRevenueReportByCinema : Button
+  -btnRevenueReportByMovie : Button
+  -btnRevenueReportByMovieShowtime : Button
+  -btnRevenueReportByInvoice : Button
+  +RevenueReportFrm()
+  +btnRevenueReportByCinema_actionPerformed() : void
+  +btnRevenueReportByMovie_actionPerformed() : void
+  +btnRevenueReportByInvoice_actionPerformed() : void
+}
+
+class RevenueReportByCinemaFrm {
+  -startDate : Date
+  -endDate : Date
+  -tblRevenueReportByCinema : table
+  -btnReturnRevenueReport : Button
+  +RevenueReportByCinemaFrm()
+  +btnReturnRevenueReport_actionPerformed() : void
+}
+
+class RevenueReportByMovieFrm {
+  -startDate : Date
+  -endDate : Date
+  -tblRevenueReportByMovie : table
+  -btnReturnRevenueReport : Button
+  +RevenueReportByMovieFrm()
+  +btnReturnRevenueReport_actionPerformed() : void
+}
+
+class RevenueReportByMovieShowtimeFrm {
+  -startDate : Date
+  -endDate : Date
+  -tblRevenueReportByMovieShowtime : table
+  -btnReturnRevenueReportDetail : Button
+  -btnReturnRevenueReport : Button
+  +RevenueReportByMovieShowtimeFrm()
+  +btnReturnRevenueReportDetail_actionPerformed() : void
+  +btnReturnRevenueReport_actionPerformed() : void
+}
+
+class RevenueReportByInvoiceFrm {
+  -startDate : Date
+  -endDate : Date
+  -tblRevenueReportByInvoice : table
+  -btnReturnRevenueReportByMovieShowtime : Button
+  -btnReturnRevenueReport : Button
+  +RevenueReportByInvoiceFrm()
+  +btnReturnRevenueReport_actionPerformed() : void
+  +btnReturnRevenueReportByMovieShowtime_actionPerformed() : void
+}
+
+class RevenueReportDAO {
+  -dbCon : Connection
+  +RevenueReportDAO()
+  +getRevenueReportByCinema(startDate, endDate) : RevenueReportByCinema
+  +getRevenueReportByMovie(startDate, endDate) : RevenueReportByMovie
+  +getRevenueReportByMovieShowtime(startDate, endDate, movie) : RevenueReportByMovieShowtime
+  +getRevenueReportByCinemaShowtime(startDate, endDate, cinema) : RevenueReportByMovieShowtime
+  +getRevenueReportByInvoice(startDate, endDate, showtime) : RevenueReportByInvoice
+}
+
+class RevenueReportByMovieShowtime {
+  -ticket_count : Integer
+  -totalRevenueByMovieShowtime : Double
+  +RevenueReportByMovieShowtime()
+  +get()
+  +set()
+}
+
+class RevenueReportByCinema {
+  -totalRevenueByCinema : Double
+  -ticket_count : Integer
+  +RevenueReportByCinema()
+  +get()
+  +set()
+}
+
+class RevenueReportByMovie {
+  -totalRevenueByMovie : Double
+  -ticket_count : Integer
+  +RevenueReportByMovie()
+  +get()
+  +set()
+}
+
+class RevenueReportByInvoice {
+  -totalRevenueByInvoice : Double
+  -ticket_count : Integer
+  +RevenueReportByInvoice()
+  +get()
+  +set()
+}
+
+class Movie {
+  -id : Integer
+  -name : String
+  -genre : Integer
+  -productionYear : Integer
+  -description : String
+  +Movie()
+  +Movie(id, name, genre, productionYear, description)
+  +get()
+  +set()
+}
+
+class Showtime {
+  -id : Integer
+  -dateTime : Date
+  -movie : Movie
+  -screeningRoom : ScreeningRoom
+  +Showtime()
+  +Showtime(id, dateTime, movie, screeningRoom)
+  +get()
+  +set()
+}
+
+class ScreeningRoom {
+  -id : Integer
+  -seatNumber : Integer
+  -description : String
+  -seatList : Seat[]
+  +ScreeningRoom()
+  +ScreeningRoom(id, seatNumber, description, seatList)
+  +get()
+  +set()
+}
+
+class Cinema {
+  -id : Integer
+  -name : String
+  -address : String
+  -description : String
+  -screeningRoomList : ScreeningRoom[]
+  +Cinema()
+  +Cinema(id, name, address, description, screeningRoomList)
+  +get()
+  +set()
+}
+
+class Invoice {
+  -id : Integer
+  -dateTime : Date
+  -totalPrice : Double
+  -ticketList : Ticket[]
+  -user : User
+  -customer : Customer
+  +Invoice()
+  +Invoice(id, dateTime, ticketList, user, customer)
+  +get()
+  +set()
+}
+
+class Customer {
+  -id : Integer
+  -name : String
+  -phone : String
+  +Customer()
+  +Customer(id, name, phone)
+  +get()
+  +set()
+}
+
+class Ticket {
+  -id : Integer
+  -discount : Double
+  -price : Double
+  -showtime : Showtime
+  -seat : Seat
+  +Ticket()
+  +Ticket(id, discount, price, showtime, seat)
+  +get()
+  +set()
+}
+
+class User {
+  -id : Integer
+  -name : String
+  -role : String
+  +User()
+  +User(id, name, role)
+  +get()
+  +set()
+}
+
+
+
+' Relationships
+
+RevenueReportFrm -- RevenueReportByCinemaFrm
+RevenueReportFrm -- RevenueReportByMovieFrm
+RevenueReportByCinemaFrm --> RevenueReportByMovieShowtimeFrm
+RevenueReportByMovieFrm --> RevenueReportByMovieShowtimeFrm
+RevenueReportByMovieShowtimeFrm --> RevenueReportByInvoiceFrm
+
+RevenueReportDAO -- RevenueReportByCinema
+RevenueReportDAO -- RevenueReportByMovie
+RevenueReportDAO -- RevenueReportByMovieShowtime
+RevenueReportDAO -- RevenueReportByInvoice
+
+Cinema  "1" *-- "1..*" ScreeningRoom
+ScreeningRoom "1" --o "0..*" Showtime
+Movie "1" --o "0..*" Showtime
+Showtime "1" --o "1..*" Ticket
+Customer "1" --o "0..*" Invoice
+Ticket "1..*" --o "0..1" Invoice
+User "1" --o "0..*" Invoice
+
+@enduml

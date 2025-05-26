@@ -1,0 +1,57 @@
+@startuml
+skinparam backgroundColor #add8e6
+skinparam actorStyle awesome
+
+package "Cinema management system" {
+    
+    actor Customer
+    actor Staff
+    actor Manager
+    actor User
+
+    User <|-- Staff
+    User <|-- Manager
+
+    usecase "Login\n<color:blue><b>extension points</b>\nLogout\nChange password" as UC_Login
+    usecase "Logout" as UC_Logout
+    usecase "Change password" as UC_ChangePassword
+
+    usecase "Staff login\n<color:blue><b>extension points</b>\nBuy movies ticket\nCancel movies ticket\nBuy food & drink\nRevenue report" as UC_StaffLogin
+    usecase "Buy movies ticket" as UC_BuyTicket
+    usecase "Cancel movies ticket" as UC_CancelTicket
+    usecase "Buy food & drink" as UC_BuyFood
+    usecase "Revenue report" as UC_RevenueReport
+
+    usecase "Manager login\n<color:blue><b>extension points</b>\nManage screening schedule and pricing\nView reports" as UC_ManagerLogin
+    usecase "Manage screening schedule and pricing" as UC_ManageSchedule
+    usecase "View reports" as UC_ViewReports
+
+    ' Actors connect
+    Staff --> UC_StaffLogin
+    Manager --> UC_ManagerLogin
+    User --> UC_Login
+
+    ' Customer connects to buy/cancel/buy food
+    Customer --> UC_BuyTicket
+    Customer --> UC_CancelTicket
+    Customer --> UC_BuyFood
+
+    ' Extends
+    UC_Login <.down. UC_Logout : <<Extend>>
+    UC_Login <.down. UC_ChangePassword : <<Extend>>
+
+    UC_StaffLogin <.right. UC_BuyTicket : <<Extend>>
+    UC_StaffLogin <.right. UC_CancelTicket : <<Extend>>
+    UC_StaffLogin <.right. UC_BuyFood : <<Extend>>
+
+
+    UC_ManagerLogin -up-> UC_Login
+
+    UC_ViewReports .up.> UC_ManagerLogin : <<Extend>>
+    UC_ManageSchedule .up.> UC_ManagerLogin : <<Extend>>
+
+    UC_RevenueReport .up.> UC_StaffLogin : <<Extend>>
+
+}
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundColor #add8e6
+skinparam state {
+    BackgroundColor #add8e6
+    BorderColor black
+}
+
+[*] --> RevenueReportFrm : Chức năng thống kê được chọn
+
+RevenueReportFrm --> RevenueReportByCinemaFrm : Nút thống kê theo rạp được chọn
+RevenueReportFrm --> RevenueReportByMovieFrm : Nút thống kê theo phim được chọn
+RevenueReportFrm --> [*] : Thoát khỏi form thống kê
+
+RevenueReportByCinemaFrm --> RevenueReportFrm : Nút quay lại giao diện thống kê được click
+RevenueReportByCinemaFrm --> RevenueReportByMovieShowtimeFrm : Một rạp trong danh sách được click
+
+RevenueReportByMovieFrm --> RevenueReportFrm : Nút quay lại giao diện thống kê được click
+RevenueReportByMovieFrm --> RevenueReportByMovieShowtimeFrm : Một phim trong danh sách được click
+
+RevenueReportByMovieShowtimeFrm --> RevenueReportByInvoiceFrm : Một suất chiếu trong danh sách được click
+RevenueReportByMovieShowtimeFrm --> RevenueReportByCinemaFrm : Nút quay lại danh sách thống kê theo rạp được click
+RevenueReportByMovieShowtimeFrm --> RevenueReportByMovieFrm : Nút quay lại danh sách thống kê theo phim được click
+
+RevenueReportByInvoiceFrm --> RevenueReportByMovieShowtimeFrm : Nút quay lại danh sách thống kê theo suất chiếu được click
+
+@enduml
